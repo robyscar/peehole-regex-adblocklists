@@ -28,12 +28,15 @@ OUT="$(mktemp)"
 
 
 # Fetch the blocked zone file
+# for zone in `curl -s "https://raw.github.com/bentasker/adblock_lists_v2/master/lists/zones.txt"`
 for zone in `curl -s "https://raw.github.com/bentasker/adblock_lists_v2/master/lists/zones.txt"`
+
 do
     regex=$(echo "$zone" | sed 's~\.~\\\.~g')
     echo "^.+\.$regex\$" >> $OUT
 done
 
+#for regex in `curl -s "https://raw.github.com/bentasker/adblock_lists_v2/master/lists/regexes.txt" | egrep -v -e '^$|^#' ` 
 for regex in `curl -s "https://raw.github.com/bentasker/adblock_lists_v2/master/lists/regexes.txt" | egrep -v -e '^$|^#' ` 
 do
     echo "$regex" >> $OUT
